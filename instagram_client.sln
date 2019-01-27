@@ -6,6 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "instagram_client", "instagram_client\instagram_client.vcxproj", "{9FE91AFC-0AED-4D32-821B-739E139CA15A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "instagram_authenticator", "instagram_authenticator\instagram_authenticator.vcxproj", "{A5FA8B62-DC4E-477A-A17D-8592929B1FB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92} = {E362FD34-8F13-42E8-AC81-F4EBC9B71C92}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkLib", "NetworkLib\NetworkLib.vcxproj", "{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +36,14 @@ Global
 		{A5FA8B62-DC4E-477A-A17D-8592929B1FB1}.Release|x64.Build.0 = Release|x64
 		{A5FA8B62-DC4E-477A-A17D-8592929B1FB1}.Release|x86.ActiveCfg = Release|Win32
 		{A5FA8B62-DC4E-477A-A17D-8592929B1FB1}.Release|x86.Build.0 = Release|Win32
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}.Debug|x64.ActiveCfg = Debug|x64
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}.Debug|x64.Build.0 = Debug|x64
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}.Debug|x86.ActiveCfg = Debug|Win32
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}.Debug|x86.Build.0 = Debug|Win32
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}.Release|x64.ActiveCfg = Release|x64
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}.Release|x64.Build.0 = Release|x64
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}.Release|x86.ActiveCfg = Release|Win32
+		{E362FD34-8F13-42E8-AC81-F4EBC9B71C92}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
