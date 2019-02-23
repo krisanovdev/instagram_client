@@ -22,13 +22,6 @@ void InstagramAuthenticator::PerformLogin(std::string& csrfToken)
     std::string buffer;
     query->GetData("https://www.instagram.com/accounts/login/ajax/", buffer); // TO DO : parse json responce
 
-    Json::CharReaderBuilder reader;
-    Json::Value responce;
-    reader.newCharReader.parse(buffer, responce);
-    
-    std::string id = responce["userId"].asString();
-
-
     Cookies_vt cookies;
     query->GetCookies(cookies);
 
