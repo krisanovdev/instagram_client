@@ -1,3 +1,4 @@
+#include <sstream>
 #include "SSLQuery.h"
 
 namespace
@@ -7,12 +8,37 @@ namespace
         stream->append(ptr, size * nmemb);
         return size * nmemb;
     }
+
+    std::string urlencode(const std::string &s)
+    {
+        static const char lookup[] = "0123456789abcdef";
+        std::stringstream e;
+        for (int i = 0, ix = s.length(); i<ix; i++)
+        {
+            const char& c = s[i];
+            if ((48 <= c && c <= 57) ||//0-9
+                (65 <= c && c <= 90) ||//abc...xyz
+                (97 <= c && c <= 122) || //ABC...XYZ
+                (c == '-' || c == '_' || c == '.' || c == '~')
+                )
+            {
+                e << c;
+            }
+            else
+            {
+                e << '%';
+                e << lookup[(c & 0xF0) >> 4];
+                e << lookup[(c & 0x0F)];
+            }
+        }
+        return e.str();
+    }
 }
 
 SSLQuery::SSLQuery()
     : m_curl(curl_easy_init())
 {
-    curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, &CurlCallback);
+    curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, CurlCallback);
 
     const char* cookieFile = "cookies.txt";
     curl_easy_setopt(m_curl, CURLOPT_COOKIEJAR, cookieFile);
@@ -53,7 +79,7 @@ void SSLQuery::SetPostField(const std::string& field, const std::string& value)
         m_queryString += '&';
     }
 
-    m_queryString +=  value;
+    m_queryString += urlencode(field) + "=" + urlencode(value);
 }
 
 void SSLQuery::SetProxy(const std::string& host, int port)

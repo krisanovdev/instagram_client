@@ -1,4 +1,5 @@
 #include <memory>
+#include <json\reader.h>
 #include "InstagramAuthenticator.h"
 #include "SSLQuery.h"
 #include "AuthorizationUtils.h"
@@ -17,9 +18,17 @@ void InstagramAuthenticator::PerformLogin(std::string& csrfToken)
     authorization::utils::SetCSRFToken(query.get(), "1");
     query->SetPostField("username", m_username);
     query->SetPostField("password", m_password);
-    query->SetPostField("queryParams", "{\"source\":\"auth_switcher\"}"); // TO DO : implement special symbols replacing
+    query->SetPostField("queryParams", "{\"source\":\"auth_switcher\"}");
     std::string buffer;
-    query->GetData("https://www.instagram.com/accounts/login/ajax/", buffer);
+    query->GetData("https://www.instagram.com/accounts/login/ajax/", buffer); // TO DO : parse json responce
+
+    Json::CharReaderBuilder reader;
+    Json::Value responce;
+    reader.newCharReader.parse(buffer, responce);
+    
+    std::string id = responce["userId"].asString();
+
+
     Cookies_vt cookies;
     query->GetCookies(cookies);
 
