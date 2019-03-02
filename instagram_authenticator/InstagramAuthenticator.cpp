@@ -59,7 +59,7 @@ void InstagramAuthenticator::ConfigureQuery(ISSLQuery* query)
 void InstagramAuthenticator::CheckAuthenticantion(const std::string& response)
 {
     std::vector<char> jsonResponse;
-    utils::compression::GZipDecompress(response.data(), response.size(), jsonResponse);
+    utils::compression::GZipDecompress(response.data(), response.size(), jsonResponse, 10000u);
     authorization::AuthResponse auth;
     authorization::utils::ParseAuthResponse(jsonResponse, auth);
 
