@@ -1,7 +1,5 @@
 #include <memory>
-#include <sstream>
 #include <algorithm>
-#include <json\json.h>
 #include "InstagramAuthenticator.h"
 #include "SSLQuery.h"
 #include "AuthorizationUtils.h"
