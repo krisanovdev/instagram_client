@@ -107,20 +107,26 @@ void SSLQuery::GetCookies(Cookies_vt& cookies)
     curl_slist* each = list;
     while (each)
     {
-        auto cookie = ParseCoookieFromCurlSlistData(each->data);
-        cookies.emplace_back(cookie.first, cookie.second);
+        const Cookie& cookie = ParseCoookieFromCurlSlistData(each->data);
+
+        if (!cookie.second.empty() && cookie.second != "\"\"")
+        {
+            cookies.emplace_back(cookie.first, cookie.second);
+        }
+
         each = each->next;
     }
 }
 
-std::pair<std::string, std::string> SSLQuery::ParseCoookieFromCurlSlistData(const std::string& data)
+Cookie SSLQuery::ParseCoookieFromCurlSlistData(const std::string& data)
 {
-    std::pair<std::string, std::string> cookie;
+    Cookie cookie;
     const size_t lastTab = data.rfind('\t');
+    const auto error = std::runtime_error("Can't parse cookie record");
 
     if (lastTab == std::string::npos)
     {
-        throw std::runtime_error("Can't parse cookie record");
+        throw error;
     }
 
     cookie.second = data.substr(lastTab + 1);
@@ -128,7 +134,7 @@ std::pair<std::string, std::string> SSLQuery::ParseCoookieFromCurlSlistData(cons
 
     if (preLastTab == std::string::npos)
     {
-        throw std::runtime_error("Can't parse cookie record");
+        throw error;
     }
 
     cookie.first = data.substr(preLastTab + 1, lastTab - preLastTab - 1);

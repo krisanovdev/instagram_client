@@ -9,7 +9,8 @@ public:
     virtual void PerformLogin(std::string& csrfToken) override;
 
 private:
-    void ConfigureQuery(ISSLQuery* query);
+    static void ConfigureQuery(ISSLQuery* query);
+    static void CheckAuthenticantion(const std::string& response);
 
 private:
     std::string m_username;

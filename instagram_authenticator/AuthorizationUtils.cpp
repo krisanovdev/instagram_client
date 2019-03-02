@@ -1,3 +1,5 @@
+#include <sstream>
+#include <json\json.h>
 #include "AuthorizationUtils.h"
 
 void authorization::utils::SetBasicHeaders(ISSLQuery* query)
@@ -14,4 +16,29 @@ void authorization::utils::SetBasicHeaders(ISSLQuery* query)
 void authorization::utils::SetCSRFToken(ISSLQuery* query, const std::string& token)
 {
     query->SetHeader("x-csrftoken", token.c_str());
+}
+
+void authorization::utils::ParseAuthResponse(const std::vector<char>& rawJson, AuthResponse& output)
+{
+    Json::Value root;
+    std::stringstream(std::string(rawJson.data(), rawJson.size())) >> root;
+    output.status = root["status"].asString();
+
+    if (output.status != "ok")
+    {
+        return;
+    }
+
+    output.isAuthenticated = root["authenticated"].asBool();
+
+    if (!output.isAuthenticated)
+    {
+        return;
+    }
+
+    output.isUser = root["user"].asBool();
+    output.userId = root["userId"].asString();
+    output.isOneTapPrompt = root["oneTapPrompt"].asBool();
+    output.fr = root["fr"].asString();
+    output.isReactivated = root["reactivated"].asBool();
 }
